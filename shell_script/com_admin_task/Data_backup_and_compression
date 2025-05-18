@@ -1,0 +1,27 @@
+#!/bin/bash
+#Author: Jayesh Karad
+#Date Created: 18th May 2025
+
+#Exit if error
+set -e
+
+# Directories to back up
+SOURCE=("/home/jayesh/imp" 
+"/tmp/documents")
+
+BACKUP_DIR="/home/jayesh/backups"
+DATE=$(date +%Y-%m-%d_%H-%M-%S)
+BACKUP_FILE="important_backup_$DATE.tar.gz"
+LOG_FILE="/home/jayesh/backups/backup_script.log"
+
+#Create Backup
+mkdir -p "$BACKUP_DIR"
+
+# Logging Starts
+echo "[$(date)] Starting backup | tee -a $LOG_FILE"
+
+# Create tar.gz archive of selected directories
+tar -czf "$BACKUP_DIR/$BACKUP_FILE" "${SOURCE[@]}"
+
+echo "Backup completed: $BACKUP_FILE | tee -a $LOG_FILE"
+
