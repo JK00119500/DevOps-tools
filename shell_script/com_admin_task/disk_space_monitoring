@@ -1,0 +1,23 @@
+#!/bin/bash
+#this script is used for disk space monitoring and alerting
+#Created by: Jayesh Karad
+#created on: 18th may 2025
+THRESHOLD=10
+
+LOG_FILE="$home/disk_usage_script.log"
+
+df -h | grep -i ^/dev/ | while read line
+do
+	USAGE=$(echo $line | awk '{print $5}' | tr -d %)
+	PARTITION=$(echo $line | awk '{print $6}')
+	if [ $USAGE -ge $THRESHOLD ]
+	then
+		ALERT_MSG="[$DATE] WARNING: $PARTITION is at ${USAGE}% Disk Usage!"
+
+		# Append to Log
+		echo $ALERT_MSG | tee -a $LOG_FILE
+
+# Optionally: send an email alert (uncomment below and configure 'mail' command)
+#echo $ALERT_MSG | mail -s "Disk alert on $(hostname)" you@example.com
+	fi
+done
