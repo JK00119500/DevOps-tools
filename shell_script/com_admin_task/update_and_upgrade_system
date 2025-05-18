@@ -1,0 +1,22 @@
+#!/bin/bash
+#Description: this script is used to update and upgrade system
+#Created by: Jayesh Karad
+#Date Created: 18th May 2025
+
+#Exit on error  
+set -e 
+
+LOG_FILE="/var/log/system_update.log"
+
+# Update package list
+sudo apt update | tee -a $LOG_FILE
+
+# Upgrade installed packages
+sudo apt upgrade -y >> tee -a $LOG_FILE
+
+# Remove unneeded packages
+sudo apt autoremove -y | tee -a $LOG_FILE 
+
+# Finish
+echo "System update completed." | tee -a "$LOG_FILE"
+
